@@ -46,6 +46,8 @@ class Echo(commands.Bot):
 
 with open('./data.json') as f:
   data = json.load(f)
+with open('./data.json') as f:
+  data = json.load(f)
 
 for filename in listdir("./cogs"):
     if filename.endswith(".py"):
