@@ -8,8 +8,6 @@ import json
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
-system("clear")
-
 
 class Echo(commands.Bot):
     def __init__(self):
@@ -49,10 +47,10 @@ class Echo(commands.Bot):
 with open('./data.json') as f:
   data = json.load(f)
 
-for filename in os.listdir("./cogs"):
+for filename in listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
-        
+
 TOKEN = data['token']
 bot = Echo()
 
