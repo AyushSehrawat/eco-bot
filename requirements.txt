@@ -1,0 +1,4 @@
+py-cord
+jishaku
+discord-pretty-help
+motor
