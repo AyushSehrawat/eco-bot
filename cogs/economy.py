@@ -9,6 +9,8 @@ import json
 
 with open('./data.json') as f:
     d1 = json.load(f)
+with open('./market.json') as f:
+    d2 = json.load(f)
 
 nest_asyncio.apply()
 
