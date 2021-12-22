@@ -49,12 +49,34 @@ with open('./data.json') as f:
 with open('./data.json') as f:
   data = json.load(f)
 
-for filename in listdir("./cogs"):
-    if filename.endswith(".py"):
-        client.load_extension(f"cogs.{filename[:-3]}")
-
 TOKEN = data['token']
 bot = Echo()
+
+@bot.command(hidden=True)
+@commands.is_owner()
+async def load(ctx, extension):
+    bot.load_extension(f"cogs.{extension}")
+    await ctx.send("Done")
+
+
+@bot.command(hidden=True)
+@commands.is_owner()
+async def unload(ctx, extension):
+    bot.unload_extension(f"cogs.{extension}")
+    await ctx.send("Done")
+
+
+@bot.command(hidden=True)
+@commands.is_owner()
+async def reload(ctx, extension):
+    bot.unload_extension(f"cogs.{extension}")
+    bot.load_extension(f"cogs.{extension}")
+    await ctx.send("Done")
+
+
+for filename in listdir("./cogs"):
+    if filename.endswith(".py"):
+        bot.load_extension(f"cogs.{filename[:-3]}")
 
 bot.load_extension("jishaku")
 bot.loop.run_until_complete(bot.run(TOKEN))

@@ -1,7 +1,21 @@
 {
-    "desc" : "Eco Market",
-    "tech" : [
-        "Items related to technology ( ex: computers, phones, etc.)",
-        ["Samsung S9 soon......."]
+    "IoT": [
+        {"Digital Watch": "$80"},
+        {"Samsung Mobile Phone": "$300"},
+        {"IPhone": "$400"}
+    ],
+    "Food Items": [
+        {"Milk": "$10"},
+        {"Eggs": "$60"},
+        {"Bread": "$20"},
+        {"Apple": "$10"},
+        {"Orange": "$20"},
+        {"Banana": "$30"}
+    ],
+    "Cars": [
+        {"McLaren 580s": "$80000"},
+        {"Ferrari": "$100000"},
+        {"Lamborghini": "$200000"},
+        {"BMW M340i": "$60000"}
     ]
 }
