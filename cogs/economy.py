@@ -6,6 +6,7 @@ from discord.ext.commands import BucketType, cooldown
 import motor.motor_asyncio
 import nest_asyncio
 import json
+import random
 
 with open('./data.json') as f:
     d1 = json.load(f)
@@ -34,9 +35,13 @@ class Economy(commands.Cog):
             # wallet = current money, bank = money in bank
             await ecomoney.insert_one(newuser)
 
-    async def update_account(self, id : int, wallet : int, bank : int):
+    async def update_wallet(self, id : int, wallet : int):
         if id is not None:
-            await ecomoney.update_one({"id": id}, {"$set": {"wallet": wallet, "bank": bank}})
+            await ecomoney.update_one({"id": id}, {"$set": {"wallet": wallet}})
+
+    async def update_bank(self, id : int, bank : int):
+        if id is not None:
+            await ecomoney.update_one({"id": id}, {"$set": {"bank": bank}})
 
 
     @commands.command(aliases=["bal"])
@@ -108,6 +113,68 @@ class Economy(commands.Cog):
             else:
                 await ecomoney.update_one({"id": user.id}, {"$inc": {"wallet": -amount, "bank": +amount}})
                 await ctx.send(f'You have deposited ${amount}')
+        except Exception:
+            await ctx.send('An error occured')
+
+    @commands.command()
+    @cooldown(1, 2, BucketType.user)
+    async def rob(self, ctx, user: discord.Member = None):
+        """ Rob someone"""
+        if user is None or user.id == ctx.author.id:
+            await ctx.send('Trying to rob yourself?')
+        else:
+            try:
+                user_bal = await ecomoney.find_one({"id": user.id})
+                member_bal = await ecomoney.find_one({"id": ctx.author.id})
+                if user_bal is None:
+                    await self.open_account(user.id)
+                    user_bal = await ecomoney.find_one({"id": user.id})
+                if member_bal is None:
+                    await self.open_account(ctx.author.id)
+                    member_bal = await ecomoney.find_one({"id": ctx.author.id})
+                mem_bank = member_bal["bank"]
+                user_bank = user_bal["bank"]
+                if mem_bank < 100:
+                    await ctx.send('You do not have enough money to rob someone')
+                elif mem_bank >= 100:
+                    if user_bank < 100:
+                        await ctx.send('User do not have enough money to get robbed ;-;')
+                    elif user_bank >= 100:
+                        num = random.randint(1, 100)
+                        f_mem = mem_bank + num
+                        f_user = user_bank - num
+                        await self.update_bank(ctx.author.id, f_mem)
+                        await self.update_bank(user.id, f_user)
+                        await ctx.send('You have robbed ${num} from {user}'.format(num=num, user=user))
+
+
+            except Exception:
+                await ctx.send('An error occured')
+
+    # send money to another user
+    @commands.command()
+    @cooldown(1, 2, BucketType.user)
+    async def send(self, ctx, user: discord.Member, amount: int):
+        """ Send money to another user"""
+        try:
+            user_bal = await ecomoney.find_one({"id": user.id})
+            member_bal = await ecomoney.find_one({"id": ctx.author.id})
+            if user_bal is None:
+                await self.open_account(user.id)
+                user_bal = await ecomoney.find_one({"id": user.id})
+            if member_bal is None:
+                await self.open_account(ctx.author.id)
+                member_bal = await ecomoney.find_one({"id": ctx.author.id})
+            mem_bank = member_bal["bank"]
+            user_bank = user_bal["bank"]
+            if amount > mem_bank or amount > 20000:
+                await ctx.send('You do not have enough money to send that much or amount too much')
+            elif amount <= 0:
+                await ctx.send('You cannot send 0 or less')
+            else:
+                await ecomoney.update_one({"id": ctx.author.id}, {"$inc": {"bank": -amount}})
+                await ecomoney.update_one({"id": user.id}, {"$inc": {"bank": +amount}})
+                await ctx.send(f'You have sent ${amount} to {user}')
         except Exception:
             await ctx.send('An error occured')
 
