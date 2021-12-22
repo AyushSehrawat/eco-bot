@@ -45,11 +45,16 @@ class Echo(commands.Bot):
         print(f"[ Log ] GateWay WebSocket Latency: {self.latency*1000:.1f} ms")
 
 with open('./data.json') as f:
-  data = json.load(f)
-with open('./data.json') as f:
-  data = json.load(f)
+  d1 = json.load(f)
+with open('./market.json') as f:
+  d2 = json.load(f)
 
-TOKEN = data['token']
+def bot_info():
+    return d1
+def market_info():
+    return d2
+
+TOKEN = d1['token']
 bot = Echo()
 
 @bot.command(hidden=True)
