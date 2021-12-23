@@ -17,11 +17,31 @@ Create a file `data.json` with these contents
 {
     "name" : "Bot Name",
     "token" : "Bot Token",
-    "mongo" : "Mongo Url"
+    "mongo" : "Mongo Url (mongodb+srv://.......)"
 }
 ```
 
 Edit `market.json` for items/products
+
+```
+{
+    "IoT" : [
+        ["Smart Watch",100,"smart-watch"]
+    ],
+    "Food" : [
+        ["Water",5,"water"]
+    ],
+    "Cars" : [
+        ["Car",10000,"car"]
+    ]
+}
+```
+
+For MongoDB create
+```
+Database -> eco
+            Collection -> money
+```
 
 -------------------------
 
