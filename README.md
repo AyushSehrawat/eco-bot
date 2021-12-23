@@ -1,5 +1,5 @@
 # EcoBot
-A Economy Bot made using py-cord (Currently - Rewriting from scratch)
+A Economy Bot made using py-cord and mongoDB
 
 -------------------------
 
