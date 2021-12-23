@@ -40,7 +40,7 @@ Edit `market.json` for items/products
 For MongoDB create
 ```
 Database -> eco
-            Collection -> money
+            Collection -> money, bag
 ```
 
 -------------------------
