@@ -155,13 +155,27 @@ class Shop(commands.Cog):
         )
         await ctx.send(embed=embed)
 
-    # ---------------------------- In Progress
+    # function to add item in ecobag
+    async def add_item(self, id : int, item : str, amount : int):
+        if id is not None:
+            await ecobag.update_one({"id": id}, {"$push": {"bag": [item, amount]}})
+        
+    # function to edit amount of item in ecobag
+    async def edit_item(self, id : int, index : int, amount : int):
+        if id is not None:
+            await ecobag.update_one({"id": id}, {"$set": {f"bag.{index}.1": amount}})
+
+    # function to remove item from ecobag
+    async def remove_item(self, id : int, name : str, amount : int):
+        if id is not None:
+            await ecobag.update_one({"id": id}, {"$pull": {"bag": [name, amount]}})
+
 
     @commands.command(aliases=["b"])
     @cooldown(1, 2, BucketType.user)
     async def buy(self, ctx, item : str, amount : int = 1):
-        if amount <= 0:
-            await ctx.send("Amount must be greater than 0")
+        if amount <= 0 or amount > 100:
+            await ctx.send("Amount must be greater than 0 or less than 100")
             return
         bal = await ecomoney.find_one({"id": ctx.author.id})
         if bal is None:
@@ -188,32 +202,72 @@ class Shop(commands.Cog):
             await ctx.send("You don't have enough money in your bank")
             return
 
-        await ctx.send(bag['bag'])
+        await self.update_bank(ctx.author.id, u_bal - price)
 
-
-        am = amount
         for x in bag['bag']:
-            if x[item]:
-                inde = bag['bag'].index(x)
-                am = bag['bag'][inde][item]
-                am += amount
+            if x[0] == item:
+                init_amount = x[1]
+                final_amount = amount + init_amount
+                index = bag['bag'].index(x)
+                await self.edit_item(ctx.author.id, index, final_amount)
+                await ctx.send(f"You bought {amount} {name} for ${price}")
+                return
 
-        # Update amount or add in bag
-        print(am)
-        if am > amount:
-            await ecobag.update_one({"id": ctx.author.id}, {"$set": {"bag.$.{}".format(item): am}})
+        await self.add_item(ctx.author.id, item, amount)
+        await ctx.send(f"You bought {amount} {name} for ${price}")   
 
-        else:
-            await ecobag.update_one({"id": ctx.author.id}, {"$push": {"bag": {"{}".format(item): amount}}})
+    @commands.command(aliases=["s"])
+    @cooldown(1, 2, BucketType.user)
+    async def sell(self, ctx, item : str, amount : int = 1):
+        if amount <= 0 or amount > 100:
+            await ctx.send("Amount must be greater than 0 or less than 0")
+            return
+        bal = await ecomoney.find_one({"id": ctx.author.id})
+        if bal is None:
+            await self.open_account(ctx.author.id)
+            bal = await ecomoney.find_one({"id": ctx.author.id})
 
-        # await ecobag.update_one({"id": ctx.author.id}, {"$set": {"bag.$.{}".format(item): am}})
-        await ctx.send(f"{ctx.author.mention} bought {amount} {name} for ${price}")
-
-        f_u_bal = u_bal - price
-        await self.update_bank(ctx.author.id, f_u_bal)
-
+        bag = await ecobag.find_one({"id": ctx.author.id})
+        if bag is None:
+            await self.open_bag(ctx.author.id)
+            bag = await ecobag.find_one({"id": ctx.author.id})
         
-        
+        fg = items.get(item)
+
+        if fg is None:
+            await ctx.send("Item not found")
+            return
+
+        price = fg[1]
+        name = fg[2]
+
+        u_bal = bal["bank"]
+
+        for x in bag['bag']:
+            if x[0] == item:
+                init_amount = x[1]
+                if amount > init_amount:
+                    await ctx.send("You don't have enough of this item")
+                    return
+                elif amount == init_amount:
+                    price = int(round(price * init_amount * 0.7,0))
+                    index = bag['bag'].index(x)
+                    await self.remove_item(ctx.author.id, item, init_amount)
+                    await self.update_bank(ctx.author.id, u_bal + price)
+                    await ctx.send(f"You sold {amount} {name} for ${price}")
+                    return
+
+                else:
+                    final_amount = init_amount - amount
+                    price =  int(round(price * amount * 0.7,0))
+                    index = bag['bag'].index(x)
+                    await self.edit_item(ctx.author.id, index, final_amount)
+                    await self.update_bank(ctx.author.id, u_bal + price)
+                    await ctx.send(f"You sold {amount} {name} for ${price}")
+                    return
+
+        await ctx.send("You don't have this item")
+
 
 def setup(bot):
     bot.add_cog(Shop(bot))
