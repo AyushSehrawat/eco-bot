@@ -30,7 +30,6 @@ class Economy(commands.Cog):
         print("Eco Cog Loaded Succesfully")
 
     async def open_account(self, id : int):
-        if id is not None:
             newuser = {"id": id, "wallet": 0, "bank": 100}
             # wallet = current money, bank = money in bank
             await ecomoney.insert_one(newuser)

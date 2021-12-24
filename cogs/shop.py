@@ -312,6 +312,55 @@ class Shop(commands.Cog):
         )
         await ctx.send(embed=embed)
 
+    # leaderboard
+    @commands.command(aliases=["lb"])
+    @cooldown(1, 2, BucketType.user)
+    async def leaderboard(self, ctx, page : int = 1):
+        """ Checkout the leaderboard. For more than one page, use the page number.
+        {1 : "0-9", 2 : "10-20", 3 : "20-30", 4 : "30-40", 5 : "40-50"} - Page and item number
+        """
+        if page > 5 or page < 1:
+            await ctx.send("Page must be between 1 and 5")
+            return
+        bal = await ecomoney.find_one({"id": ctx.author.id})
+        if bal is None:
+            await self.open_account(ctx.author.id)
+            bal = await ecomoney.find_one({"id": ctx.author.id})
+
+        page_dict = {1 : "0-9", 2 : "10-20", 3 : "20-30", 4 : "30-40", 5 : "40-50"}
+        intial, final = page_dict[page].split('-')
+        total = 0
+        members_id = []
+        ranked_list=[]
+        for x in ctx.guild.members:
+            members_id.append(x.id)
+        rankings = ecomoney.find().sort("bank", -1)
+        async for x in rankings:
+            if x["id"] in members_id:
+                total += 1
+                ranked_list.append([x['id']])
+
+        if total == 0:
+            await ctx.send("There are no users in the database")
+            return
+        
+
+        embed = discord.Embed(
+            title=f"Leaderboard",
+            description=f"Page {page} | Total Users: {total}",
+            color=0xFF0000
+            )
+
+        page_users = ranked_list[int(intial):int(final)+1]
+
+        for x in page_users:
+            embed.add_field(name=x[0], value='1', inline=False)
+
+        embed.set_footer(
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+        )
+        await ctx.send(embed=embed)
+        
 
 def setup(bot):
     bot.add_cog(Shop(bot))
