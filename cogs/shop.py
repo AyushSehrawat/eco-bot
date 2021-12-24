@@ -268,6 +268,50 @@ class Shop(commands.Cog):
 
         await ctx.send("You don't have this item")
 
+    @commands.command(aliases=["i"])
+    @cooldown(1, 2, BucketType.user)
+    async def inventory(self, ctx, page : int = 1):
+        """ Checkout your inventory. For more than one page, use the page number.
+        {1 : "0-9", 2 : "10-20", 3 : "20-30", 4 : "30-40", 5 : "40-50"} - Page and item number
+        """
+        if page > 5 or page < 1:
+            await ctx.send("Page must be between 1 and 5")
+            return
+        bal = await ecomoney.find_one({"id": ctx.author.id})
+        if bal is None:
+            await self.open_account(ctx.author.id)
+            bal = await ecomoney.find_one({"id": ctx.author.id})
+
+        bag = await ecobag.find_one({"id": ctx.author.id})
+        if bag is None:
+            await self.open_bag(ctx.author.id)
+            bag = await ecobag.find_one({"id": ctx.author.id})
+
+        total = 0
+        page_dict = {1 : "0-9", 2 : "10-20", 3 : "20-30", 4 : "30-40", 5 : "40-50"}
+        intial, final = page_dict[page].split('-')
+        for x in bag['bag']:
+            total += 1
+        if total == 0:
+            await ctx.send("Your bag is empty")
+            return
+        
+        page_items = bag['bag'][int(intial):int(final)+1]
+
+        embed = discord.Embed(
+            title=f"{ctx.author.name}'s Inventory",
+            description=f"Page {page} | Total Items In Inventory: {total}",
+            color=0xFF0000
+            )
+        for x in page_items:
+            fg = items.get(x[0])
+            embed.add_field(name=fg[2], value=f"{x[1]}", inline=False)
+
+        embed.set_footer(
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+        )
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Shop(bot))
