@@ -316,8 +316,7 @@ class Shop(commands.Cog):
     @commands.command(aliases=["lb"])
     @cooldown(1, 2, BucketType.user)
     async def leaderboard(self, ctx):
-        """ Checkout the leaderboard.
-        """
+        """ Checkout the leaderboard."""
 
         rankings = ecomoney.find().sort("bank", -1)
 

@@ -45,7 +45,7 @@ Database -> eco
 
 -------------------------
 
-## Setup of mongodb
+#### Setup of mongodb
 
 - Go to https://www.mongodb.com
 
