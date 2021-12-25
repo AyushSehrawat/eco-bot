@@ -177,5 +177,30 @@ class Economy(commands.Cog):
         except Exception:
             await ctx.send('An error occured')
 
+    # A economy bot fun command
+    @commands.command()
+    @cooldown(1, 2, BucketType.user)
+    async def gamble(self, ctx, amount: int):
+        """ Gamble money"""
+        try:
+            user_bal = await ecomoney.find_one({"id": ctx.author.id})
+            if user_bal is None:
+                await self.open_account(ctx.author.id)
+                user_bal = await ecomoney.find_one({"id": ctx.author.id})
+            if amount > user_bal["wallet"]:
+                await ctx.send('You do not have enough money to gamble that much')
+            elif amount <= 0:
+                await ctx.send('You cannot gamble 0 or less')
+            else:
+                num = random.randint(1, 100)
+                if num <= 50:
+                    await ecomoney.update_one({"id": ctx.author.id}, {"$inc": {"wallet": +amount}})
+                    await ctx.send(f'You have won ${amount}')
+                elif num > 50:
+                    await ecomoney.update_one({"id": ctx.author.id}, {"$inc": {"wallet": -amount}})
+                    await ctx.send(f'You have lost ${amount}')
+        except Exception:
+            await ctx.send('An error occured')
+
 def setup(bot):
     bot.add_cog(Economy(bot))

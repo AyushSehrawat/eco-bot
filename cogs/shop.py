@@ -174,6 +174,7 @@ class Shop(commands.Cog):
     @commands.command(aliases=["b"])
     @cooldown(1, 2, BucketType.user)
     async def buy(self, ctx, item : str, amount : int = 1):
+        """ Buy an item from the market"""
         if amount <= 0 or amount > 100:
             await ctx.send("Amount must be greater than 0 or less than 100")
             return
@@ -219,6 +220,7 @@ class Shop(commands.Cog):
     @commands.command(aliases=["s"])
     @cooldown(1, 2, BucketType.user)
     async def sell(self, ctx, item : str, amount : int = 1):
+        """ Sell items from your bag """
         if amount <= 0 or amount > 100:
             await ctx.send("Amount must be greater than 0 or less than 0")
             return
