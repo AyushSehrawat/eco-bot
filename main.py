@@ -19,7 +19,7 @@ class Echo(commands.Bot):
             intents=discord.Intents.all(),
             description=self.description,
             case_insensitive=True,
-            start_time=datetime.utcnow(),
+
         )
 
     async def on_connnect(self):
