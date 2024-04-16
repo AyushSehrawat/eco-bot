@@ -22,7 +22,7 @@ class Echo(commands.Bot):
 
         )
 
-    async def on_connnect(self):
+    async def on_connect(self):
         self.session = aiohttp.ClientSession(loop=self.loop)
 
         cT = datetime.now() + timedelta(
