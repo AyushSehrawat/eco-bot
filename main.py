@@ -6,7 +6,7 @@ import discord
 import json
 
 from discord.ext import commands
-from pretty_help import PrettyHelp
+
 
 
 class Echo(commands.Bot):
@@ -17,7 +17,6 @@ class Echo(commands.Bot):
             command_prefix={"."},
             owner_ids={727365670395838626},
             intents=discord.Intents.all(),
-            help_command=PrettyHelp(),
             description=self.description,
             case_insensitive=True,
             start_time=datetime.utcnow(),
