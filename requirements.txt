@@ -1,6 +1,5 @@
-py-cord
+discord.py
 jishaku
-discord-pretty-help
 motor
 psutil
 nest_asyncio
