@@ -113,7 +113,7 @@ class Errors(commands.Cog):
         )
         embed = discord.Embed(
             title="Unknown error",
-            description=str(sys.stderr),
+            description=str(error),
             color=0xFF0000,
         )
         await ctx.send(embed=embed)
