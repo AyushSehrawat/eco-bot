@@ -44,7 +44,7 @@ class Info(commands.Cog):
             name="Prefix", value=f"`.`", inline=False
         )
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
 
         embed.set_thumbnail(url=ctx.guild.icon_url)
@@ -59,7 +59,7 @@ class Info(commands.Cog):
         embed = discord.Embed(
             timestamp=ctx.message.created_at, title=":robot:  Bot Info", color=0xFF0000
         )
-        embed.set_thumbnail(url=self.bot.user.avatar_url)
+        embed.set_thumbnail(url=self.bot.user.avatar.url)
         embed.add_field(
             name="Helping", value=f"{ser} servers"
         )
@@ -80,10 +80,10 @@ class Info(commands.Cog):
             value="[Checkout my website](https://....)",
         )
         embed.add_field(
-            name="Made By", value="Mini.py#5183"
+            name="Made By", value="`@_mini.dev`\n`@infinotiver`"
         )
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
 
@@ -101,7 +101,7 @@ class Info(commands.Cog):
             title="User Info",
             color=0xFF0000,
         )
-        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_thumbnail(url=member.avatar.url)
         embed.add_field(name=":name_badge: Name", value=f"{member.name}")
         embed.add_field(
             name="Nickname", value=f"{member.nick}"
@@ -116,7 +116,7 @@ class Info(commands.Cog):
             value=f"{member.top_role.mention}",
         )
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
 
