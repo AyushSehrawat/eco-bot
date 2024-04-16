@@ -164,7 +164,7 @@ class Economy(commands.Cog):
     @cooldown(1, 10, BucketType.user)
     async def beg(self, ctx):
         """ Beg for some money from strangers """
-        beg_amount = random.randint(0, 1000)
+        beg_amount = random.randint(0, 500)
         user_bal = await economy_collection.find_one({"id": ctx.author.id})
         if not user_bal:
             await self.open_account(ctx.author.id)
