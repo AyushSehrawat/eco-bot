@@ -111,6 +111,13 @@ class Errors(commands.Cog):
         traceback.print_exception(
             type(error), error, error.__traceback__, file=sys.stderr
         )
+        embed = discord.Embed(
+            title="Unknown error",
+            description=str(sys.stderr),
+            color=0xFF0000,
+        )
+        await ctx.send(embed=embed)
+            
 
 
 def setup(bot):
