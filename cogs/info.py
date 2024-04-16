@@ -47,7 +47,7 @@ class Info(commands.Cog):
             text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
 
-        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed.set_thumbnail(url=ctx.guild.icon.url)
 
         await ctx.send(embed=embed)
 
