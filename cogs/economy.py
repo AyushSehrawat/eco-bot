@@ -160,7 +160,27 @@ class Economy(commands.Cog):
                 {"id": user.id}, {"$set": receiver_account}
             )
             await ctx.send(f"You have sent ${amount} to {user}")
-
+    @commands.command()
+    @cooldown(1, 10, BucketType.user)
+    async def beg(self, ctx):
+        """ Beg for some money from strangers """
+        beg_amount = random.randint(0, 1000)
+        user_bal = await economy_collection.find_one({"id": ctx.author.id})
+        if not user_bal:
+            await self.open_account(ctx.author.id)
+            user_bal = await economy_collection.find_one({"id": ctx.author.id})
+        await economy_collection.update_one({"id": ctx.author.id}, {"$inc": {"wallet": +beg_amount}})
+        reactions = ['💸', '🤑', '💰', '💳', '💵']
+        excuses = ["You're lucky I have a heart of gold!",
+                   "Don't beg, just take what you want.",
+                   "I'm not as poor as you think I am.",
+                   "I'm feeling generous today, so here you go!",
+                   "You're welcome."]
+        excuse = random.choice(excuses)
+        embed = discord.Embed(title=random.choice(reactions), description = f"{ctx.author.mention} {excuse} ${beg_amount}")
+        embed.color = discord.Color.gold()
+        embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar.url)
+        await ctx.channel.send(embed=embed)
     @commands.command()
     @cooldown(1, 2, BucketType.user)
     async def gamble(self, ctx, amount: int):
