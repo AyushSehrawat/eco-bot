@@ -90,7 +90,7 @@ class Shop(commands.Cog):
             inline=False
         )
         embed.set_footer(
-        text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+        text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
 
         await ctx.send(embed=embed)
@@ -111,7 +111,7 @@ class Shop(commands.Cog):
                 inline=False
             )
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
 
@@ -131,7 +131,7 @@ class Shop(commands.Cog):
                 inline=False
             )
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
 
@@ -151,7 +151,7 @@ class Shop(commands.Cog):
                 inline=False
             )
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
 
@@ -310,7 +310,7 @@ class Shop(commands.Cog):
             embed.add_field(name=fg[2], value=f"{x[1]}", inline=False)
 
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
 
@@ -345,7 +345,7 @@ class Shop(commands.Cog):
 
 
         embed.set_footer(
-            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar_url}"
+            text=f"Requested By: {ctx.author.name}", icon_url=f"{ctx.author.avatar.url}"
         )
         await ctx.send(embed=embed)
         
