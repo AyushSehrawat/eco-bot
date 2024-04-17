@@ -1,5 +1,5 @@
 # EcoBot
-A Economy Bot made using py-cord and mongoDB
+A Economy Bot made using discord.py and mongoDB
 
 -------------------------
 
@@ -53,13 +53,13 @@ Database -> eco
 
 - Verify Email
 
-- [Here for img](https://i.imgur.com/yPXOrcR.png)
+- [Click here for img](https://i.imgur.com/yPXOrcR.png)
 
 Click on project 0 , then click on new project
 
 - Name your project ( anything ), then add members ( if any ). After that click create.
 
-- [Here for img](https://i.imgur.com/BeA2t9P.png)
+- [Click here for img](https://i.imgur.com/BeA2t9P.png)
 
 Click on build database, select Free (for starters), let the default settings be there, but you can chnage the last field of cluster name.
 
@@ -75,3 +75,8 @@ Click on build database, select Free (for starters), let the default settings be
 Later to connect to that db you can do `foo = cluster["database"]["collection"]` in the code. Like `ecomoney = cluster["eco"]["money"]`.
 
 - That's it for db setup.
+
+---
+## Contributors
+
+![Contributors](https://contrib.rocks/image?repo=AyushSehrawat/eco-bot)
