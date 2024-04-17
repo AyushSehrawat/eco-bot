@@ -15,7 +15,6 @@ class Echo(commands.Bot):
 
         super().__init__(
             command_prefix={"."},
-            owner_ids={727365670395838626},
             intents=discord.Intents.all(),
             description=self.description,
             case_insensitive=True,
