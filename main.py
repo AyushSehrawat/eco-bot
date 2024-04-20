@@ -26,19 +26,13 @@ class Echo(commands.Bot):
     async def on_connect(self):
         self.session = aiohttp.ClientSession(loop=self.loop)
 
-        cT = datetime.now() + timedelta(
-            hours=5, minutes=30
-        )  # GMT+05:30 is Our TimeZone So.
-
+        cT = datetime.now() + timedelta(hours=5, minutes=30)
         print(
             f"[ Log ] {self.user} Connected at {cT.hour}:{cT.minute}:{cT.second} / {cT.day}-{cT.month}-{cT.year}"
         )
 
     async def on_ready(self):
-        cT = datetime.now() + timedelta(
-            hours=5, minutes=30
-        )  # GMT+05:30 is Our TimeZone So.
-
+        cT = datetime.now() + timedelta(hours=5, minutes=30)
         print(
             f"[ Log ] {self.user} Ready at {cT.hour}:{cT.minute}:{cT.second} / {cT.day}-{cT.month}-{cT.year}"
         )
