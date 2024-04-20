@@ -76,4 +76,10 @@ for filename in listdir("./cogs"):
         bot.load_extension(f"cogs.{filename[:-3]}")
 
 bot.load_extension("jishaku")
-bot.loop.run_until_complete(bot.run(TOKEN))
+
+# Fetch token from environment variable
+token = os.getenv("TOKEN")
+if token:
+    bot.loop.run_until_complete(bot.run(token))
+else:
+    print("Error: Discord token not found in environment variable TOKEN")
