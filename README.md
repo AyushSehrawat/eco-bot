@@ -11,14 +11,11 @@ Install the required modules
 pip install -r requirements.txt
 ```
 
-Create a file `data.json` with these contents
+Create a file `.env` with these contents
 
 ```
-{
-    "name" : "Bot Name",
-    "token" : "Bot Token",
-    "mongo" : "Mongo Url (mongodb+srv://.......)"
-}
+TOKEN=your_bot_token
+mongo=your_mongo_link
 ```
 
 Edit `market.json` for items/products
