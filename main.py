@@ -1,13 +1,15 @@
 from datetime import datetime, timedelta
-from os import listdir, system
-
+from os import listdir
+import os
 import aiohttp
 import discord
 import json
+from dotenv import load_dotenv
 
 from discord.ext import commands
 
-
+# Load environment variables from .env file
+load_dotenv()
 
 class Echo(commands.Bot):
     def __init__(self):
