@@ -42,7 +42,7 @@ class Economy(commands.Cog):
         )
 
     @commands.command(aliases=["bal"])
-    @cooldown(1, 10, BucketType.user)
+    @cooldown(1, 2, BucketType.user)
     async def balance(self, ctx, user: discord.Member = None):
         """Check your balance"""
         if user is None:
