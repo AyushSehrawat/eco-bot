@@ -65,7 +65,7 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["wd"])
-    @cooldown(1, 10, BucketType.user)
+    @cooldown(1, 5, BucketType.user)
     async def withdraw(self, ctx, amount: int):
         """Withdraw money from your bank"""
         account = await economy_collection.find_one({"id": ctx.author.id})
@@ -82,7 +82,7 @@ class Economy(commands.Cog):
             await ctx.send(f"You have withdrawn ${amount}")
 
     @commands.command(aliases=["dp"])
-    @cooldown(1, 10, BucketType.user)
+    @cooldown(1, 5, BucketType.user)
     async def deposit(self, ctx, amount: int):
         """Deposit money to your bank"""
         account = await economy_collection.find_one({"id": ctx.author.id})
@@ -133,7 +133,7 @@ class Economy(commands.Cog):
                     await ctx.send(f"You have robbed ${amount} from {user}")
 
     @commands.command()
-    @cooldown(1, 10, BucketType.user)
+    @cooldown(1, 5, BucketType.user)
     async def send(self, ctx, user: discord.Member, amount: int):
         """Send money to another user"""
         receiver_account = await economy_collection.find_one({"id": user.id})
