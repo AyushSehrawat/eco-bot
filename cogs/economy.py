@@ -99,7 +99,7 @@ class Economy(commands.Cog):
             await ctx.send(f"You have deposited ${amount}")
 
     @commands.command()
-    @cooldown(1, 10, BucketType.user)
+    @cooldown(1, 3600, BucketType.user)
     async def rob(self, ctx, user: discord.Member = None):
         """Rob someone"""
         if user is None or user.id == ctx.author.id:
