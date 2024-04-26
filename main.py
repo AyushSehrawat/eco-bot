@@ -11,36 +11,32 @@ from discord.ext import commands
 
 class Echo(commands.Bot):
     def __init__(self):
-        self.description = """Echo - A Economy Bot"""
+        self.description = """Echo - An Economy Bot"""
 
         super().__init__(
             command_prefix={"."},
             intents=discord.Intents.all(),
             description=self.description,
             case_insensitive=True,
-
         )
 
     async def on_connect(self):
         self.session = aiohttp.ClientSession(loop=self.loop)
 
-        cT = datetime.now() + timedelta(
+        self.cT = datetime.now() + timedelta(
             hours=5, minutes=30
         )  # GMT+05:30 is Our TimeZone So.
 
-        print(
-            f"[ Log ] {self.user} Connected at {cT.hour}:{cT.minute}:{cT.second} / {cT.day}-{cT.month}-{cT.year}"
-        )
+        print(f"[ Log ] {self.user} has connected at {self.cT.hour}:{self.cT.minute}:{self.cT.second} / {self.cT.day}-{self.cT.month}-{self.cT.year}")
 
     async def on_ready(self):
-        cT = datetime.now() + timedelta(
+        self.cT = datetime.now() + timedelta(
             hours=5, minutes=30
         )  # GMT+05:30 is Our TimeZone So.
 
-        print(
-            f"[ Log ] {self.user} Ready at {cT.hour}:{cT.minute}:{cT.second} / {cT.day}-{cT.month}-{cT.year}"
-        )
+        print(f"[ Log ] {self.user} is ready at {self.cT.hour}:{self.cT.minute}:{self.cT.second} / {self.cT.day}-{self.cT.month}-{self.cT.year}")
         print(f"[ Log ] GateWay WebSocket Latency: {self.latency*1000:.1f} ms")
+
 
 with open('./data.json') as f:
   d1 = json.load(f)
