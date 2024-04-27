@@ -1,40 +1,44 @@
 # EcoBot
-A Economy Bot made using discord.py and mongoDB
+An Economy Bot made using discord.py and mongoDB
 
 -------------------------
 
 ## Usage
 
-Install the required modules
+### **Install the required modules**
 
 ```
 pip install -r requirements.txt
 ```
 
-Create a file `.env` with these contents
+### **Create a file `.env` with these contents**
 
 ```
 TOKEN=your_bot_token
 mongo=your_mongo_link
 ```
 
-Edit `market.json` for items/products
+### **Edit `market.json` for items/products**
+
+**Format**
+
+`[display_name, price, item-name-without-spaces]`
 
 ```
 {
     "IoT" : [
-        ["Smart Watch",100,"smart-watch"]
+        ["Smart Watch", 100, "smart-watch"]
     ],
     "Food" : [
-        ["Water",5,"water"]
+        ["Water", 5, "water"]
     ],
     "Cars" : [
-        ["Car",10000,"car"]
+        ["Car", 10000, "car"]
     ]
 }
 ```
 
-For MongoDB create
+For MongoDB, create
 ```
 Database -> eco
             Collection -> money, bag
@@ -42,7 +46,7 @@ Database -> eco
 
 -------------------------
 
-#### Setup of mongodb
+#### Setup MongoDB
 
 - Go to https://www.mongodb.com
 
@@ -71,9 +75,10 @@ Click on build database, select Free (for starters), let the default settings be
 - Now go to Browse Collections and click `Add My Own Data` . Enter whatever db and collection name you want to use.
 Later to connect to that db you can do `foo = cluster["database"]["collection"]` in the code. Like `ecomoney = cluster["eco"]["money"]`.
 
-- That's it for db setup.
+- That's it for DB setup.
 
 ---
+
 ## Contributors
 
 ![Contributors](https://contrib.rocks/image?repo=AyushSehrawat/eco-bot)
