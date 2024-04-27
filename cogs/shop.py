@@ -4,10 +4,11 @@ from discord.ext import commands
 from discord.ext.commands import BucketType, cooldown
 import motor.motor_asyncio
 import nest_asyncio
+from dotenv import load_dotenv
 import json
 
-with open('./data.json') as f:
-    d1 = json.load(f)
+load_dotenv()
+
 with open('./market.json') as f:
     d2 = json.load(f)
 
@@ -29,7 +30,7 @@ for x in d2["Cars"]:
 
 nest_asyncio.apply()
 
-mongo_url = d1['mongo']
+mongo_url = os.getenv("mongo")
 
 cluster = motor.motor_asyncio.AsyncIOMotorClient(mongo_url)
 ecomoney = cluster["eco"]["money"]

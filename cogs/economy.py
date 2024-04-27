@@ -7,13 +7,11 @@ import motor.motor_asyncio
 import nest_asyncio
 import json
 import random
-
+from dotenv import load_dotenv
 nest_asyncio.apply()
 
-with open('./data.json') as f:
-    config = json.load(f)
-
-cluster = motor.motor_asyncio.AsyncIOMotorClient(config["mongo"])
+load_dotenv()
+cluster = motor.motor_asyncio.AsyncIOMotorClient(os.getenv("mongo"))
 economy_collection = cluster["eco"]["money"]
 
 

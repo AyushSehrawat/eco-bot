@@ -1,13 +1,15 @@
 from datetime import datetime, timedelta
-from os import listdir, system
-
+from os import listdir
+import os
 import aiohttp
 import discord
 import json
+from dotenv import load_dotenv
 
 from discord.ext import commands
 
-
+# Load environment variables from .env file
+load_dotenv()
 
 class Echo(commands.Bot):
     def __init__(self):
@@ -23,32 +25,27 @@ class Echo(commands.Bot):
     async def on_connect(self):
         self.session = aiohttp.ClientSession(loop=self.loop)
 
-        self.cT = datetime.now() + timedelta(
-            hours=5, minutes=30
-        )  # GMT+05:30 is Our TimeZone So.
-
-        print(f"[ Log ] {self.user} has connected at {self.cT.hour}:{self.cT.minute}:{self.cT.second} / {self.cT.day}-{self.cT.month}-{self.cT.year}")
+        cT = datetime.now() + timedelta(hours=5, minutes=30)
+        print(
+            f"[ Log ] {self.user} Connected at {cT.hour}:{cT.minute}:{cT.second} / {cT.day}-{cT.month}-{cT.year}"
+        )
 
     async def on_ready(self):
-        self.cT = datetime.now() + timedelta(
-            hours=5, minutes=30
-        )  # GMT+05:30 is Our TimeZone So.
-
-        print(f"[ Log ] {self.user} is ready at {self.cT.hour}:{self.cT.minute}:{self.cT.second} / {self.cT.day}-{self.cT.month}-{self.cT.year}")
+        cT = datetime.now() + timedelta(hours=5, minutes=30)
+        print(
+            f"[ Log ] {self.user} Ready at {cT.hour}:{cT.minute}:{cT.second} / {cT.day}-{cT.month}-{cT.year}"
+        )
         print(f"[ Log ] GateWay WebSocket Latency: {self.latency*1000:.1f} ms")
 
 
-with open('./data.json') as f:
-  d1 = json.load(f)
-with open('./market.json') as f:
-  d2 = json.load(f)
+with open("./market.json") as f:
+    d2 = json.load(f)
 
-def bot_info():
-    return d1
+
 def market_info():
     return d2
 
-TOKEN = d1['token']
+
 bot = Echo()
 
 @bot.command(hidden=True)
@@ -78,4 +75,10 @@ for filename in listdir("./cogs"):
         bot.load_extension(f"cogs.{filename[:-3]}")
 
 bot.load_extension("jishaku")
-bot.loop.run_until_complete(bot.run(TOKEN))
+
+# Fetch token from environment variable
+token = os.getenv("TOKEN")
+if token:
+    bot.loop.run_until_complete(bot.run(token))
+else:
+    print("Error: Discord token not found in environment variable TOKEN")
