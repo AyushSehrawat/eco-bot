@@ -63,7 +63,7 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["wd"])
-    @cooldown(1, 2, BucketType.user)
+    @cooldown(1, 5, BucketType.user)
     async def withdraw(self, ctx, amount: int):
         """Withdraw money from your bank"""
         account = await economy_collection.find_one({"id": ctx.author.id})
@@ -80,7 +80,7 @@ class Economy(commands.Cog):
             await ctx.send(f"You have withdrawn ${amount}")
 
     @commands.command(aliases=["dp"])
-    @cooldown(1, 2, BucketType.user)
+    @cooldown(1, 5, BucketType.user)
     async def deposit(self, ctx, amount: int):
         """Deposit money to your bank"""
         account = await economy_collection.find_one({"id": ctx.author.id})
@@ -97,7 +97,7 @@ class Economy(commands.Cog):
             await ctx.send(f"You have deposited ${amount}")
 
     @commands.command()
-    @cooldown(1, 2, BucketType.user)
+    @cooldown(1, 3600, BucketType.user)
     async def rob(self, ctx, user: discord.Member = None):
         """Rob someone"""
         if user is None or user.id == ctx.author.id:
@@ -131,7 +131,7 @@ class Economy(commands.Cog):
                     await ctx.send(f"You have robbed ${amount} from {user}")
 
     @commands.command()
-    @cooldown(1, 2, BucketType.user)
+    @cooldown(1, 5, BucketType.user)
     async def send(self, ctx, user: discord.Member, amount: int):
         """Send money to another user"""
         receiver_account = await economy_collection.find_one({"id": user.id})
@@ -158,6 +158,7 @@ class Economy(commands.Cog):
                 {"id": user.id}, {"$set": receiver_account}
             )
             await ctx.send(f"You have sent ${amount} to {user}")
+
     @commands.command()
     @cooldown(1, 10, BucketType.user)
     async def beg(self, ctx):
@@ -179,29 +180,31 @@ class Economy(commands.Cog):
         embed.color = discord.Color.gold()
         embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar.url)
         await ctx.channel.send(embed=embed)
+
     @commands.command()
-    @cooldown(1, 2, BucketType.user)
+    @cooldown(1, 10, BucketType.user)
     async def gamble(self, ctx, amount: int):
-        """ Gamble money"""
+        """Gamble some money."""
         try:
             user_bal = await economy_collection.find_one({"id": ctx.author.id})
             if user_bal is None:
                 await self.open_account(ctx.author.id)
                 user_bal = await economy_collection.find_one({"id": ctx.author.id})
             if amount > user_bal["wallet"]:
-                await ctx.send('You do not have enough money to gamble that much')
+                await ctx.send("You do not have enough money to gamble that much.")
             elif amount <= 0:
-                await ctx.send('You cannot gamble 0 or less')
+                await ctx.send("You cannot gamble 0 or less.")
             else:
                 num = random.randint(1, 100)
                 if num <= 50:
-                    await economy_collection.update_one({"id": ctx.author.id}, {"$inc": {"wallet": +amount}})
-                    await ctx.send(f'You have won ${amount}')
-                elif num > 50:
+                    await economy_collection.update_one({"id": ctx.author.id}, {"$inc": {"wallet": amount}})
+                    embed = discord.Embed(title="You won!", description=f"You won ${amount}!", color=discord.Color.green())
+                else:
                     await economy_collection.update_one({"id": ctx.author.id}, {"$inc": {"wallet": -amount}})
-                    await ctx.send(f'You have lost ${amount}')
+                    embed = discord.Embed(title="You lost!", description=f"You lost ${amount}!", color=discord.Color.red())
+                await ctx.send(embed=embed)
         except Exception:
-            await ctx.send('An error occurred')
+            await ctx.send("An error occurred.")
    
 def setup(bot):
     bot.add_cog(Economy(bot))

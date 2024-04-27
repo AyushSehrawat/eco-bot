@@ -13,14 +13,13 @@ load_dotenv()
 
 class Echo(commands.Bot):
     def __init__(self):
-        self.description = """Echo - A Economy Bot"""
+        self.description = """Echo - An Economy Bot"""
 
         super().__init__(
             command_prefix={"."},
             intents=discord.Intents.all(),
             description=self.description,
             case_insensitive=True,
-
         )
 
     async def on_connect(self):
