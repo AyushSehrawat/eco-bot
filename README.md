@@ -1,3 +1,7 @@
+> [!IMPORTANT]  
+> This project was originally created in 2021 and has been recently updated by a contributor. I intend to archive this repository soon.
+
+
 # EcoBot
 An Economy Bot made using discord.py and mongoDB
 
@@ -46,36 +50,34 @@ Database -> eco
 
 -------------------------
 
-#### Setup MongoDB
+## Setting Up MongoDB
 
-- Go to https://www.mongodb.com
+1. Visit [MongoDB](https://www.mongodb.com) and sign up.
 
-- From there register/Try Free ( Fill up the details or register via google )
+2. Verify your email address.
 
-- Verify Email
+3. Navigate to project 0, then select "New Project".
 
-- [Click here for img](https://i.imgur.com/yPXOrcR.png)
+   ![New project](https://i.imgur.com/yPXOrcR.png)
 
-Click on project 0 , then click on new project
+5. Name your project (anything you like), add any members if needed, then hit "create".
 
-- Name your project ( anything ), then add members ( if any ). After that click create.
+   ![New database](https://i.imgur.com/BeA2t9P.png)
 
-- [Click here for img](https://i.imgur.com/BeA2t9P.png)
+6. Click on "Build Database", choose the Free option (ideal for beginners), and stick with the default settings, except if you want to customize the cluster name.
 
-Click on build database, select Free (for starters), let the default settings be there, but you can chnage the last field of cluster name.
+7. Keep the default options selected, and input your username/password (make sure to remember them).
 
-- Then let the default things be selected and enter your username/password ( remember them ).
+8. In the IP access list, allow access from everywhere by entering `0.0.0.0/0`.
 
-- In the IP access list enter `0.0.0.0/0` (allow from everywhere).
+9. Complete the setup and clear any prompts.
 
-- Finish and clear
+10. It might take a while to create your database. Once it's done, head to "Connect" and select "Connect your application". Choose Python and version 3.6 or later. Copy the provided link and paste it into your `data.json` file. Remember to edit the password (remove `< >` too).
 
-- After that it will take some time to create. Once its finished go to Connect and select Connect your application. Select python and 3.6 or later. Then copy the link and paste in data.json. Edit the password (remove < > too). And done
+11. Go to "Browse Collections" and click "Add My Own Data". Enter your desired database and collection names. Later, to connect to this database, you can simply use `foo = cluster["database"]["collection"]` in your code, like `ecomoney = cluster["eco"]["money"]`.
 
-- Now go to Browse Collections and click `Add My Own Data` . Enter whatever db and collection name you want to use.
-Later to connect to that db you can do `foo = cluster["database"]["collection"]` in the code. Like `ecomoney = cluster["eco"]["money"]`.
+That's all you need to set up your MongoDB database.
 
-- That's it for DB setup.
 
 ---
 
