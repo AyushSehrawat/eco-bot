@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> This project was originally created in 2021 and has been recently updated by a contributor. I intend to archive this repository soon.
+> This project was originally created in 2021 and has recently been updated by a contributor. However, I don’t plan to continue improving this bot, so I’m archiving it.
 
 
 # EcoBot
